@@ -1,0 +1,33 @@
+.label{
+    width: 72rem;
+    margin: 3rem 0 0 14rem;
+    background-color:white;
+    position: absolute;
+    left: 36rem;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+h3{
+    color: white;
+}
+.logo{
+    background-color: #ff0000;
+    color: white;
+    font-family:Arial, Helvetica, sans-serif
+}
+.container{
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq2ivAy5bzOJlZS8SNKgsMwAx0JF7X4oy-3ZJTA3G9WfFHg09IqE3A9ueqtYeAygj0v_g&usqp=CAU");
+        background-size:cover;
+        background-position:center;
+        height: 30rem;
+        position: relative;
+}
+.link{
+    color: black;
+}
+.link.active{
+    color: blue;
+    text-decoration:underline
+
+}
+
