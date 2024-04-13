@@ -1,77 +1,90 @@
   import React,{useEffect, useState, useRef} from 'react'
   import  "./flight.css"
-  import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-  import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+  import TextField from '@mui/material/TextField';
+  import Autocomplete from '@mui/material/Autocomplete';
+import { Typography } from '@mui/material';
 
   export default function Flight() {
     const [fromDestination,setFromDestination] = useState('');
     const [toDestination,setTodestination] = useState("");
     const [departureDate,setDepartureDate] = useState("");
-    const [offers,setOffers] = useState([]);
-    const [selectCategory,setSelectCategory] = useState("ALL")
-    const OFFER_API = ` https://academics.newtonschool.co/api/v1/bookingportals/offers?filter={"type":"${selectCategory}"}`;
-  
+    const [travellerClass,setTravelarClass] = useState('');
+      const [city,setCity] = useState('')
+      const [airportName,setAirportsName] = useState([])
+      const [offers,setOffers] = useState([]);
+      const [selectCategory,setSelectCategory] = useState("ALL")
+      const APP_API = "https://academics.newtonschool.co/api/v1/bookingportals";
+      
+    
 
 
 
-    async function HandleOfferSection(){
-      try{
-          const response = await fetch(OFFER_API,{
-            method:'GET',
-            headers:{"projectID":"f104bi07c490"}
-          })
-          if(!response.ok){
-            throw new Error("Somthing went wrong")
-          }
-          const data = await response.json()
-          setOffers(data?.data?.offers)
+      async function HandleOfferSection(){
+        try{
+            const response = await fetch(`${APP_API}/offers?filter={"type":"${selectCategory}"}`,{
+              method:'GET',
+              headers:{"projectID":"f104bi07c490"}
+            })
+            if(!response.ok){
+              throw new Error("Somthing went wrong")
+            }
+            const data = await response.json()
+            setOffers(data?.data?.offers)
+            
+        }catch(err){
+            console.log(err)
+        }
+      }
+
+      async function searchAirportName(){
+        try{
+          const response = await fetch(`${APP_API}/airport?limit=50`,{
+          method:'GET',
+          headers:{"projectID":"f104bi07c490"}
+        })
+        const airportData = await response.json()
+        setAirportsName(airportData.data.airports)
+        console.log(airportData.data.airports)
+        }catch(err){
+          console.log("something went wrong")
+        }
+      }
+      
+        searchAirportName()
+
+      useEffect(()=>{
+        HandleOfferSection()
+      },[selectCategory])
+      
+
+      function handleSelectCategory(category){
+          setSelectCategory(category)
+      }
+      
+
+
+
+      return (
+        <>
           
-      }catch(err){
-          console.log(err)
-      }
-    }
-    useEffect(()=>{
-        
-      HandleOfferSection()
-    },[selectCategory])
-    
-
-
-
-    function handleSelectCategory(category){
-        setSelectCategory(category)
-    }
-    const scrollLeft = () => {
-      if (offerSliderRef.current) {
-        offerSliderRef.current.scrollBy({
-          left: -300, 
-          behavior: 'smooth'
-        });
-      }
-    };
+          <div className='flightContainer'>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={airportName}
+              sx={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="From" />}
+            />
   
-    const scrollRight = () => {
-      if (offerSliderRef.current) {
-        offerSliderRef.current.scrollBy({
-          left: 300, 
-          behavior: 'smooth'
-        });
-      }
-    };
-
-    
-
-
-
-    return (
-      <>
-        
-        <div className='flightContainer'>
-          <input className='fromDestination' value={fromDestination} 
-          onChange={(e)=>setFromDestination(e.target.value)}
+              
+          
+  
+          <input className='departureDate'
+            placeholder='Departure'
           />
-          <input className='toDestination'/>
-          <input className='departureDate'/>
+          <input 
+          className='class'
+          />
 
           <button className='searchBtn'>SEARCH</button>
 

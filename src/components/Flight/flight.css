@@ -10,12 +10,9 @@
 
 }
 .fromDestination{
-    margin-left: 20px;
-    width: 17rem;
-    height: 6rem;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border:solid grey 0.1px;
+    margin-left: 30px;
+    width: 19rem;
+    
 }
 .fromDestination, .toDestination,.departureDate,.searchBtn:hover{
     cursor: pointer;
@@ -23,7 +20,7 @@
 
 
 .toDestination{
-    width: 17rem;
+    width: 19rem;
     height: 6rem;
     border:solid grey 0.1px
 }
@@ -31,6 +28,15 @@
     width: 17rem;
     height: 6rem;
     border:solid grey 0.1px
+}
+.class{
+    width: 17rem;
+    height: 6rem;
+    border:solid grey 0.1px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+
 }
 .searchBtn{
     width: 13rem;
@@ -72,13 +78,16 @@
     color: #fff;
     border-radius: 5px;
 }
-
+/* offer section */
 .offerCards{
     margin-top: 30px;
-    width:80rem;
-    height: 500px;
-    display: grid;
-    grid-template-columns:35rem 3rem;
+    width:80vw;
+    height: 300px;
+    overflow: scroll;
+    /* display: grid; */
+    /* grid-template-columns:35rem 3rem; */
+    display: flex;
+    flex-direction: row;
     
 }
 .offerCard{

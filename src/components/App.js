@@ -20,7 +20,9 @@ function App() {
       <Navbar/>
       <diV>
         <Routes>
-          <Route path="/flight" element={<Flight/>}/>
+          <Route path="/flight" element={<Flight/>}>
+            <Route path="/flight"/>
+          </Route>
           <Route path="/hotel" element={<Hotel/>}/>
           <Route path="/homestays" element={<HomeStaysnVilas/>}/>
           <Route path="/holidays-india" element={<HolidayPackages/>}/>
