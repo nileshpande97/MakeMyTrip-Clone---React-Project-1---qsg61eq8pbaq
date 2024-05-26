@@ -12,6 +12,8 @@ import Cabs from "./Cabs/Cabs"
 import HolidayPackages from "./Holiday-packages/HolidayPackages";
 import Forex from "./ForecCard&Currency/Forex";
 import Insurance from "./Insurance/Insurance"
+import Offersection from "./Offersection";
+import FlightResult from "./Flight/FlightResult"
 
 
 function App() {
@@ -20,8 +22,9 @@ function App() {
       <Navbar/>
       <diV>
         <Routes>
-          <Route path="/flight" element={<Flight/>}>
-            <Route path="/flight"/>
+          <Route path="/flight" >
+            <Route index element={<Flight/>}/>
+            <Route path="/flight/flightsearch" element={<FlightResult/>}/>
           </Route>
           <Route path="/hotel" element={<Hotel/>}/>
           <Route path="/homestays" element={<HomeStaysnVilas/>}/>
@@ -33,7 +36,9 @@ function App() {
           <Route path="/insurance" element={<Insurance/>}/>
         </Routes>
       </diV>
-
+      <div>
+        <Offersection/>
+      </div>
     </>
     )
 }

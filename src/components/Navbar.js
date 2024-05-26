@@ -13,6 +13,8 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
 import SecurityIcon from '@mui/icons-material/Security';
 import ForexIcon from '@mui/icons-material/AttachMoney';
+import { TabContext, TabPanel } from '@mui/lab';
+import Flight from './Flight/Flight';
 
 
 
@@ -34,6 +36,7 @@ export default function Navbar() {
         <h3 >make <span className='logo'>my</span> trip</h3>
       </div>
       <div className='label'>
+      <TabContext>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -50,6 +53,12 @@ export default function Navbar() {
           <NavLink to="/forex" className='link' onClick={()=>handleNavLinkClick(7)}><Tab icon={<ForexIcon/>}  label="Forex Card & Currency"/></NavLink>
           <NavLink to="/insurance" className="link" onClick={()=>handleNavLinkClick(8)}><Tab icon={<SecurityIcon/>} label="Travel Insurannce" /></NavLink>
           </Tabs>
+          <TabPanel value="0">
+            <Flight/>
+          </TabPanel>
+          
+
+          </TabContext>
       </div>
             
     </div>
