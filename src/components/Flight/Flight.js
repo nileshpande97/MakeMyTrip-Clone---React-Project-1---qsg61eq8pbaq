@@ -1,6 +1,6 @@
   import React,{useEffect, useState} from 'react'
   import  "./flight.css"
-  import { NavLink, useNavigate } from 'react-router-dom';
+  import {NavLink } from 'react-router-dom';
   import TextField from '@mui/material/TextField';
   import Autocomplete from '@mui/material/Autocomplete';
   import {Box,Button,Modal} from "@mui/material";
@@ -101,12 +101,10 @@
       }
       handleApply()
 
-      const navigate = useNavigate()
+      //const navigate = useNavigate()
       const handleSearch = () => {
         
-        navigate("flightsearch", {
-          
-        });
+        window.open("/flight/flightsearch","_blank")
       };
     
 
@@ -294,7 +292,7 @@
             </div>
 
 
-          <NavLink to={"/flight/flightsearch"}><button className='searchBtn' >SEARCH</button></NavLink>
+          <button className='searchBtn' onClick={handleSearch}>SEARCH</button>
 
         </div>
          
