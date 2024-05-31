@@ -12,9 +12,10 @@ import Cabs from "./Cabs/Cabs"
 import HolidayPackages from "./Holiday-packages/HolidayPackages";
 import Forex from "./ForecCard&Currency/Forex";
 import Insurance from "./Insurance/Insurance"
-import Offersection from "./Offersection";
-import FlightResult from "./Flight/FlightResult"
+import Offersection from "./Offersection"
+import FlightResult from "./Flight/FlightResult";
 
+const BlankPage = () => <div style={{ backgroundColor: "white", height: "100vh" }}></div>;
 
 function App() {
   return (
@@ -22,9 +23,9 @@ function App() {
       <Navbar/>
       <diV>
         <Routes>
-          <Route path="/flight" >
+          <Route path="/flight" element={<Flight/>} >
             <Route index element={<Flight/>}/>
-            <Route path="/flight/flightsearch" element={<FlightResult/>}/>
+            <Route path="/flight/flightsearch" element={<BlankPage/>}/>
           </Route>
           <Route path="/hotel" element={<Hotel/>}/>
           <Route path="/homestays" element={<HomeStaysnVilas/>}/>

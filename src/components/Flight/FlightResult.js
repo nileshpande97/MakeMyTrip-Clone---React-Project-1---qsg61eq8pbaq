@@ -53,4 +53,4 @@ function FlightResult() {
   )
 }
 
-export default App;
+export default FlightResult;
