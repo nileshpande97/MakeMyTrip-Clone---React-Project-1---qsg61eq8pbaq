@@ -4,12 +4,21 @@
 }
 
 
-.flightLogo{
-    padding-left: 130px;
+.navbar{
+    padding-left: 0px;
     padding-top: 10px;
     padding-bottom:10px ;
-    margin-bottom:10px ;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
+.login-btn{
+    border: none;
+    background-color: white;
+}
+
+
+
 
 .bgColor{
     height: 290px;

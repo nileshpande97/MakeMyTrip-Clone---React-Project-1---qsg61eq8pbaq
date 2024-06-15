@@ -33,10 +33,10 @@ export default function Navbar() {
     
     <div className='container'>
       <div>
-        <h3 >make <span className='logo'>my</span> trip</h3>
+      <h4 style={{color:"white"}}>make <span style={{color:"white",backgroundColor:"red",paddingBottom:"5px",borderRadius:"5px"}}>my</span> trip</h4>
       </div>
       <div className='label'>
-      <TabContext>
+        <TabContext >
           <Tabs
             value={value}
             onChange={handleChange}
@@ -58,7 +58,7 @@ export default function Navbar() {
           </TabPanel>
           
 
-          </TabContext>
+        </TabContext>
       </div>
             
     </div>

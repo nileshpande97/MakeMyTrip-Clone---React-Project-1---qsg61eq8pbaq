@@ -1,11 +1,12 @@
   import React,{useEffect, useState} from 'react'
   import  "./flight.css"
-  import {NavLink } from 'react-router-dom';
+  import { useNavigate } from 'react-router-dom';
   import TextField from '@mui/material/TextField';
   import Autocomplete from '@mui/material/Autocomplete';
-  import {Box,Button,Modal} from "@mui/material";
+  import {Box,Button,Modal, Typography, formControlClasses} from "@mui/material";
   import DatePicker from "react-datepicker";
   import "react-datepicker/dist/react-datepicker.module.css"
+import { counter } from '@fortawesome/fontawesome-svg-core';
   
   
   export default function Flight() {
@@ -50,10 +51,12 @@
     const [selecteAdults,setSelectAdults] = useState(1)
     const [selectChild,setSelectChild] = useState(0)
     const [airportName,setAirportsName] = useState([])
+    const [error,setError] = useState(false)
     const APP_API = "https://academics.newtonschool.co/api/v1/bookingportals";
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const navigate = useNavigate()
   
       
     
@@ -73,7 +76,13 @@
               //console.log(data?.data?.airports);
               setAirportsName(data?.data?.airports);
             });
-        }, []);
+
+            if(fromDestination && toDestination && fromDestination.iata_code === toDestination.iata_code){
+              setError(true)
+            }else{
+                  setError(false)
+            } 
+        }, [fromDestination, toDestination]);
 
      
 
@@ -96,16 +105,45 @@
         p: 4,
       };
 
-      const handleApply = ()=>{
-         const total = selecteAdults + selectChild
-      }
-      handleApply()
 
-      //const navigate = useNavigate()
-      const handleSearch = () => {
+      function handleFlightSearch(e){
+        e.preventDefault()
+      
+        let cabinClass = "";
+        if(travellerClass === "Economy"){
+          cabinClass = "E"
+        }
+        if(travellerClass === "Premium Economy"){
+          cabinClass = "P"
+        }
+        else if(travellerClass === "Business"){
+          cabinClass = "B"
+        }
+        const itinerary = `${fromDestination.iata_code}-${toDestination.iata_code}-${departureDate.toISOString().split('T')[0]}`;
+        const tripType = "O"; // Assuming one-way trip
+        const paxType = `A-${selecteAdults}_C-${selectChild}_I-0`;
+        const intl = "false"; // Assuming domestic flight
+        const ccde = "IN"; // Assuming country code is IN
+        const lang = "eng"; //
+
+        if(error){
+          alert("From and To airport cannot be the same")
+        }else{
+            navigate(`/flight/search?itinerary=${itinerary}&tripType=${tripType}&paxType=${paxType}&intl=${intl}&cabinClass=${cabinClass}&ccde=${ccde}&lang=${lang}`,
+              {state:{
+                fromDestination:fromDestination,
+                toDestination:toDestination,
+                departureDate:departureDate,
+                Adults:selecteAdults,
+                Child:selectChild,
+                class:travellerClass,
+                airportName:airportName
+              }}
+            )
+        }
         
-        window.open("/flight/flightsearch","_blank")
-      };
+      }
+
     
 
       return (
@@ -125,11 +163,6 @@
                 onChange={(event, newValue) => {
                 // if event is not passed as first argument i.e. (newValue) then JS treats the name newValue as event itself
                 // in order to pass the selection airport-object we need to pass in event as a first argument and then the newer value
-
-                  console.log(
-                    "newValue on change of autocomplete",
-                    newValue
-                   );
                   setFromDestination(newValue);
                 }}
                 getOptionLabel={(option) => `${option.iata_code},${option.city},${option.name}`}
@@ -180,10 +213,6 @@
                   sx={{ width: 300,height:400}}
                   autoHighlight
                   onChange={(event,newValue)=>{
-                    console.log(
-                      "newValue on change of autocomplete",
-                      newValue
-                    )
                     setTodestination(newValue)
                   }}
                   getOptionLabel={(option)=>`${option.iata_code} ${option.city} ${option.name}`}
@@ -216,13 +245,12 @@
                       className="airportsSelection"
                       {...params}
                       label="To"
-                      inputProps={{
-                      ...params.inputProps,
-                      // autoComplete: "new-password", // disable autocomplete and autofill
-                      }}
+                      error={error}
+                        helperText={error && "From and To airport cannot be the same"}
                     />
                   )}
             />
+           
           <div>
               <DatePicker
                 className='departureDate'
@@ -272,7 +300,7 @@
                       <div >
                         <p>CHOOSE TRAVEL CLASS</p>
                         <ul className='class'>
-                          {["Economy/Premium Economy","Premium Economy","Business"].map((tClass)=>(
+                          {["Economy","Premium Economy","Business"].map((tClass)=>(
                           <li
                             key={tClass}
                             className={travellerClass === tClass?"tclass active":"tclass"}
@@ -292,7 +320,7 @@
             </div>
 
 
-          <button className='searchBtn' onClick={handleSearch}>SEARCH</button>
+          <button className='searchBtn' onClick={handleFlightSearch}>SEARCH</button>
 
         </div>
          

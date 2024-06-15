@@ -1,5 +1,5 @@
 import "../styles/App.css";
-import {Routes,Route} from "react-router-dom"
+import {Routes,Route,useLocation} from "react-router-dom"
 
 
 import Flight from "./Flight/Flight";
@@ -12,20 +12,22 @@ import Cabs from "./Cabs/Cabs"
 import HolidayPackages from "./Holiday-packages/HolidayPackages";
 import Forex from "./ForecCard&Currency/Forex";
 import Insurance from "./Insurance/Insurance"
-import Offersection from "./Offersection"
-import FlightResult from "./Flight/FlightResult";
+import Flightresult from "./Flight/Flightresult";
+import OfferSection from "./Offersection";
 
-const BlankPage = () => <div style={{ backgroundColor: "white", height: "100vh" }}></div>;
 
 function App() {
+  const Location = useLocation()
+  const isFlightPath = Location.pathname === "/flight/search"
   return (
     <>
-      <Navbar/>
-      <diV>
+      {!isFlightPath && <Navbar/>}
+
+      <div>
         <Routes>
-          <Route path="/flight" element={<Flight/>} >
-            <Route index element={<Flight/>}/>
-            <Route path="/flight/flightsearch" element={<BlankPage/>}/>
+          <Route path="/flight">
+              <Route index element={<Flight/>}/>
+              <Route path="search" element={<Flightresult/>}/>
           </Route>
           <Route path="/hotel" element={<Hotel/>}/>
           <Route path="/homestays" element={<HomeStaysnVilas/>}/>
@@ -35,11 +37,9 @@ function App() {
           <Route path="/cabs" element={<Cabs/>}/>
           <Route path="/forex" element={<Forex/>}/>
           <Route path="/insurance" element={<Insurance/>}/>
-        </Routes>
-      </diV>
-      <div>
-        <Offersection/>
+        </Routes>  
       </div>
+      {!isFlightPath && <OfferSection/>}
     </>
     )
 }
