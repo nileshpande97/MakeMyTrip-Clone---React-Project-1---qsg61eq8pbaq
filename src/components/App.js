@@ -12,8 +12,8 @@ import Cabs from "./Cabs/Cabs"
 import HolidayPackages from "./Holiday-packages/HolidayPackages";
 import Forex from "./ForecCard&Currency/Forex";
 import Insurance from "./Insurance/Insurance"
-import Flightresult from "./Flight/Flightresult";
 import OfferSection from "./Offersection";
+import FlightResult from "./Flight/FlightResult";
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route path="/flight">
               <Route index element={<Flight/>}/>
-              <Route path="search" element={<Flightresult/>}/>
+              <Route path="search" element={<FlightResult/>}/>
           </Route>
           <Route path="/hotel" element={<Hotel/>}/>
           <Route path="/homestays" element={<HomeStaysnVilas/>}/>

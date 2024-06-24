@@ -3,10 +3,9 @@
   import { useNavigate } from 'react-router-dom';
   import TextField from '@mui/material/TextField';
   import Autocomplete from '@mui/material/Autocomplete';
-  import {Box,Button,Modal, Typography, formControlClasses} from "@mui/material";
+  import {Box,Button,Modal,} from "@mui/material";
   import DatePicker from "react-datepicker";
   import "react-datepicker/dist/react-datepicker.module.css"
-import { counter } from '@fortawesome/fontawesome-svg-core';
   
   
   export default function Flight() {
@@ -47,7 +46,7 @@ import { counter } from '@fortawesome/fontawesome-svg-core';
 
     });
     const [departureDate,setDepartureDate] = useState(new Date());
-    const [travellerClass,setTravelarClass] = useState("Economy/Premium Economy");
+    const [travellerClass,setTravelarClass] = useState("Economy");
     const [selecteAdults,setSelectAdults] = useState(1)
     const [selectChild,setSelectChild] = useState(0)
     const [airportName,setAirportsName] = useState([])
@@ -131,13 +130,13 @@ import { counter } from '@fortawesome/fontawesome-svg-core';
         }else{
             navigate(`/flight/search?itinerary=${itinerary}&tripType=${tripType}&paxType=${paxType}&intl=${intl}&cabinClass=${cabinClass}&ccde=${ccde}&lang=${lang}`,
               {state:{
-                fromDestination:fromDestination,
-                toDestination:toDestination,
-                departureDate:departureDate,
-                Adults:selecteAdults,
-                Child:selectChild,
-                class:travellerClass,
-                airportName:airportName
+                fromDestination,
+                toDestination,
+                departureDate,
+                selecteAdults,
+                selectChild,
+                travellerClass,
+                airportName
               }}
             )
         }
@@ -264,8 +263,8 @@ import { counter } from '@fortawesome/fontawesome-svg-core';
           <div className='modal'>
             <div>
               <Button onClick={handleOpen} style={{color:"black",display:"flex", flexDirection:"column", alignItems:"flex-start"}}>
-                  <div style={{display:"block"}} >Traveller & Class</div>
-                  <div style={{display:"block"}}>{(selecteAdults + selectChild)} Travellar</div>
+                  <div style={{fontSize:"small"}}>Traveller & Class</div>
+                  <div style={{display:"block",fontSize:"medium",fontWeight:"700"}}>{(selecteAdults + selectChild)} Travellar</div>
                   <div style={{display:"block"}}>{travellerClass}</div>
               </Button>
               <Modal

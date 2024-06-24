@@ -31,7 +31,7 @@ export default function Navbar() {
         <div className="navbar">
             <h4 style={{fontSize:"20px",color:"blue"}}>make <span style={{color:"white",backgroundColor:"red",paddingBottom:"5px",borderRadius:"5px"}}>my</span> trip</h4>
 
-        <TabContext >
+        <TabContext  value={value}>
           <Tabs
             value={value}
             onChange={handleChange}
