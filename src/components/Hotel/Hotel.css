@@ -1,0 +1,24 @@
+.hotelContainer{
+    width: 80rem;
+    height:250px;
+    background-color: white;
+    position: absolute ;
+    top: 8rem;
+    left: 10rem;
+    display: flex;
+    padding-top:70px ;
+}
+
+#location{
+    cursor: pointer;
+    height: 70px;
+}
+
+.checkIn{
+    padding-top: 4px;
+    cursor: pointer;
+    height: 6.3rem;
+    border: solid rgb(211, 202, 202) 0.1px;
+    font-size: medium;
+    font-weight: 500;
+}

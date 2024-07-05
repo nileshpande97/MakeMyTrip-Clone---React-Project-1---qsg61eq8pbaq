@@ -151,7 +151,6 @@
           <div className='flightContainer'>
             <Autocomplete
                 value={fromDestination}
-                // value => state control
                 autoComplete={true}
                 clearOnEscape={true}
                 id="fromDestination"
@@ -160,8 +159,6 @@
                 sx={{ width: 300,marginLeft:5}}
                 autoHighlight
                 onChange={(event, newValue) => {
-                // if event is not passed as first argument i.e. (newValue) then JS treats the name newValue as event itself
-                // in order to pass the selection airport-object we need to pass in event as a first argument and then the newer value
                   setFromDestination(newValue);
                 }}
                 getOptionLabel={(option) => `${option.iata_code},${option.city},${option.name}`}
