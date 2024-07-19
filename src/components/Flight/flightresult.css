@@ -258,6 +258,16 @@ align-items: center;
     flex-direction: column;
 }
 
+.from.active{
+    background-color:#008cff;
+    color: #fff;
+}
+
+.to.select{
+    background-color:#008cff;
+    color: #fff;
+}
+
 .priceModal{
     margin-top: 57px;
     margin-left: 10px;

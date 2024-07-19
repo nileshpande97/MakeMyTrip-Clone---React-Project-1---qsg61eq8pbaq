@@ -14,14 +14,17 @@ import Forex from "./ForecCard&Currency/Forex";
 import Insurance from "./Insurance/Insurance"
 import OfferSection from "./Offersection";
 import FlightResult from "./Flight/FlightResult";
+import Hotelresult from "./Hotel/Hotelresult";
 
 
 function App() {
   const Location = useLocation()
-  const isFlightPath = Location.pathname === "/flight/search"
+  const isFlightPath = Location.pathname === "/flight/search" 
+  const isHotelPath = Location.pathname === "/hotel/search"
+  
   return (
     <>
-      {!isFlightPath && <Navbar/>}
+      {!isFlightPath && !isHotelPath && <Navbar/>}
 
       <div>
         <Routes>
@@ -29,7 +32,10 @@ function App() {
               <Route index element={<Flight/>}/>
               <Route path="search" element={<FlightResult/>}/>
           </Route>
-          <Route path="/hotel" element={<Hotel/>}/>
+          <Route path="/hotel" >
+                <Route index element={<Hotel/>}/>
+                <Route path="search" element={<Hotelresult/>}/>
+          </Route>
           <Route path="/homestays" element={<HomeStaysnVilas/>}/>
           <Route path="/holidays-india" element={<HolidayPackages/>}/>
           <Route path="/railways" element={<Trains/>}/>
@@ -39,7 +45,7 @@ function App() {
           <Route path="/insurance" element={<Insurance/>}/>
         </Routes>  
       </div>
-      {!isFlightPath && <OfferSection/>}
+      {!isFlightPath && !isHotelPath && <OfferSection/>}
     </>
     )
 }

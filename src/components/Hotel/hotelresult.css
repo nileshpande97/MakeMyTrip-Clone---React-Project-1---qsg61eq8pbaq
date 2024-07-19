@@ -1,0 +1,116 @@
+* {box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar{
+    padding-left: 0px;
+    padding-top: 10px;
+    padding-bottom:10px ;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.inputBox{
+    display: flex;
+}
+
+.bgColor{
+    height: 290px;
+    background-color:#041422;
+}
+
+.hCheckIn{
+   position: absolute;
+   left: 340px;
+   top: 90px;
+}
+
+.hCheckOut{
+    position: absolute;
+   left: 610px;
+   top: 90px;
+}
+
+.hModal{
+    position: absolute;
+    left: 880px;
+    top: 98px;
+    border-radius: 5px;
+    padding-left: 5px;
+    width: 14rem;
+    height: 4rem;
+    background-color: hsla(0, 0%, 100%, .2);
+}
+
+.applyBtn{
+    margin-top: 20px;
+    width: 6rem;
+    height: 2.3rem;
+    border-radius: 30px;
+    background-color:rgb(72, 201, 249);
+    font-weight: 700;
+    color:white;
+    position: relative;
+    left: 450px;
+    cursor: pointer;
+    border: none;
+}
+
+.hAdult{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.hChild{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.hChild span p{
+    font-size: small;
+    color: #9b9b9b;
+}
+
+.hHotelModal{
+    display: flex;
+    flex-direction: row;
+    align-content:space-between ;
+    gap: 5px;
+    color: white;
+    font-size:small;
+}
+
+
+#location{
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.flightSearchBtn{
+    width: 11rem;
+    cursor: pointer;
+    height: 3rem;
+    border-radius: 40px;
+    background-color:rgb(72, 201, 249);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color:white;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: absolute;
+    top: 6rem;
+    left: 72rem;
+    border: none;
+    
+}
+
+/* hotels  */
+.hotelCards{
+background-color:  #d4dadf;
+}
+/*  */

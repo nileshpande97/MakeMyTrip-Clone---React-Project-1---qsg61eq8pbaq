@@ -42,12 +42,14 @@ function FlightResult() {
     const PROJECT_ID = "f104bi07c490";
     const [alignment, setAlignment] = React.useState('web');
     const [sort,setSort] = useState({})
-    const [stop,setStop] = useState({"stops":[]})
-    const [dTime,setDTime] = useState({})
+    const [stop,setStop] = useState()
+    const [departureTime,setDepartureTime] = useState()
+    const [arrivalTime,setArrivalTime] = useState()
+    const [airline,setAirline] = useState()
   
 
   
-
+  
     const style = {
       position: 'absolute',
       top: '40%',
@@ -128,12 +130,35 @@ function FlightResult() {
       setAlignment(newAlignment);
     };
 
-     
+    function handleFilghtModal(){
+        
+    }
 
    useEffect(()=>{
       async function fetchFlights(){
       try{
-          const response = await fetch( `${API_ENDPOINT}/flight?search={"source":"${from.iata_code}","destination":"${to.iata_code}"}&day=${days}&sort=${JSON.stringify(sort)}&filter=${JSON.stringify(stop)}`,
+         let  setFilter = "";
+        if(stop === "0" || stop === "1"){
+          setFilter = `&filter={"stops":${stop}}`
+        }
+        else if(JSON.stringify(departureTime) === JSON.stringify({"$lt":"06:00"}) || 
+                JSON.stringify(departureTime) === JSON.stringify({"$gte":"06:00", "$lte":"12:00"}) ||
+                JSON.stringify(departureTime) === JSON.stringify({"$gte":"12:00", "$lte":"18:00"}) ||
+                JSON.stringify(departureTime) === JSON.stringify({"$gt":"18:00"})
+              ){
+                setFilter = `&filter={"departureTime":${JSON.stringify(departureTime)}}`
+              }
+        else if(JSON.stringify(arrivalTime) === JSON.stringify({"$lt":"06:00"}) || 
+                JSON.stringify(arrivalTime) === JSON.stringify({"$gte":"06:00", "$lte":"12:00"}) ||
+                JSON.stringify(arrivalTime) === JSON.stringify({"$gte":"12:00", "$lte":"18:00"}) ||
+                JSON.stringify(arrivalTime) === JSON.stringify({"$gt":"18:00"})
+        ){
+              setFilter = `&filter={"departureTime":${JSON.stringify(arrivalTime)}}`
+        }
+
+        
+        
+          const response = await fetch( `${API_ENDPOINT}/flight?search={"source":"${from.iata_code}","destination":"${to.iata_code}"}&day=${days}&sort=${JSON.stringify(sort)}${setFilter}`,
            {
             method: "GET",
             headers: { projectID: `${PROJECT_ID}` }
@@ -148,19 +173,37 @@ function FlightResult() {
       }
       fetchFlights()
 
- },[sort,stop])
+ },[sort,stop,departureTime,arrivalTime ])
   
+ 
 
    function handlechecked(e){
-    const value = e.target.value
-    setStop((prevState) =>{
-      const updateStops = e.target.checked ?
-       [...prevState.stops,value]:
-       prevState.stops.filter((stopValue)=> stopValue !== value)
-       return{...prevState.stops, stops:updateStops}
-   })
+    const value = e.target.value;
+      if(e.target.checked){
+        setStop(value)    
+      }
+      else{
+        setStop()
+      } 
+
    }
-   console.log(stop)
+
+    function handleDepartureTime(value) {
+      setDepartureTime(prevTime => {
+        const newTime = JSON.stringify(prevTime) === JSON.stringify(value) ? null : value;
+        return newTime;
+      });
+   }
+
+   function handleArrivalTime(value){
+      setArrivalTime(prevTime => {
+      const newTime = JSON.stringify(prevTime) === JSON.stringify(value) ? null : value;
+      return newTime;
+    });
+   }
+   
+
+
   return (
     <>
       <MyContextStore.Provider value={{
@@ -181,7 +224,7 @@ function FlightResult() {
         </div>
       </MyContextStore.Provider>
       <div className="headingLabel">
-          Flights from {from.city} to {to.city}
+          Flights from {fromDestination.city} to {toDestination.city}
       </div>
       <div className="flightSort">
           <ToggleButtonGroup
@@ -236,7 +279,7 @@ function FlightResult() {
                                     {flightDetails.departureTime}
                                 </p>
                                 <p style={{fontSize:"small",fontWeight:"400"}}>
-                                    {from.city}
+                                    {fromDestination.city}
                                 </p>
 
                             </div>
@@ -258,7 +301,7 @@ function FlightResult() {
                                   {flightDetails.arrivalTime}
                               </p>
                               <p style={{fontSize:"small",fontWeight:"400"}}>
-                                  {to.city}
+                                  {toDestination.city}
                               </p>
 
                             </div>
@@ -302,48 +345,69 @@ function FlightResult() {
             <div className="flightChecked">
               <h4>Stops from {from.city}</h4>
                 <FormGroup>
-                  <FormControlLabel  control={<Checkbox value="0" onChange={handlechecked}/>}label="Non Stop"/>
-                  <FormControlLabel  control={<Checkbox value="1" onChange={handlechecked}/>}label="1 Stop"/>
+                  <FormControlLabel  control={<Checkbox value={"0"} onChange={handlechecked}/>}label="Non Stop"/>
+                  <FormControlLabel   control={<Checkbox value={"1"} onChange={handlechecked}/>}label="1 Stop"/>
                 </FormGroup>
             </div>
-            <h4 style={{paddingLeft:"20px"}}>Departure From {from.city}</h4>
+            <h4 style={{paddingLeft:"20px"}}>Departure From {fromDestination.city}</h4>
             <div className="filterDeparture">
                 <button 
-                  name="Before 6AM"
-                  value={dTime}
-                  onClick={() => setDTime({"departureTime":{"$lt":"06:00"}})}>
+                  className={`from ${JSON.stringify(departureTime) === JSON.stringify({"$lt":"06:00"})?"active":""}`}
+                  onClick={()=>handleDepartureTime({"$lt":"06:00"})}
+                  >
                     <WbTwilightIcon/>
                     <p>Before 6AM</p>
                 </button>   
-                <button className={"6AM-12PM?"?"active":""}>
+                <button 
+                  className={`from ${JSON.stringify(departureTime) === JSON.stringify({"$gte":"06:00", "$lte":"12:00"})?"active":""}`}
+                  onClick={()=>handleDepartureTime({"$gte":"06:00", "$lte":"12:00"})}
+                >
                     <LightModeIcon/>
                     <p>6AM-12PM</p>
                 </button>
-                <button>
+                <button
+                  className={`from ${JSON.stringify(departureTime) === JSON.stringify({"$gte":"12:00", "$lte":"18:00"})?"active":""}`}
+                  onClick={()=>handleDepartureTime({"$gte":"12:00", "$lte":"18:00"})}
+                >
                     <CloudIcon/>
                     <p>12PM-6PM</p>
                 </button>
-                <button>
+                <button
+                  className={`from ${JSON.stringify(departureTime) === JSON.stringify({"$gt":"18:00"})?"active":""}`}
+                  onClick={()=>handleDepartureTime({"$gt":"18:00"})}
+                >
                     <NightsStayIcon/>
                     <p>After 6PM</p>
                 </button>
             </div>
-            <h4 style={{paddingLeft:"20px"}}>Arrival at {to.city}</h4>
+            <h4 style={{paddingLeft:"20px"}}>Arrival at {toDestination.city}</h4>
             <div>
             <div className="filterArrival">
-                <button className={`arrivalBtn{}`}>
+                <button 
+                  className={`to ${JSON.stringify(arrivalTime) === JSON.stringify({"$lt":"06:00"})?"select":""}`}
+                  onClick={()=>handleArrivalTime({"$lt":"06:00"})}
+                >
                     <WbTwilightIcon/>
                     <p>Before 6AM</p>
                 </button> 
-                <button className={"6AM-12PM?"?"active":""}>
+                <button 
+                  className={`to ${JSON.stringify(arrivalTime) === JSON.stringify({"$gte":"06:00", "$lte":"12:00"})?"select":""}`}
+                  onClick={()=>handleArrivalTime({"$gte":"06:00", "$lte":"12:00"})}
+                >
                     <LightModeIcon/>
                     <p>6AM-12PM</p>
                 </button>
-                <button>
+                <button 
+                  className={`to ${JSON.stringify(arrivalTime) === JSON.stringify({"$gte":"12:00", "$lte":"18:00"})?"select":""}`}
+                  onClick={()=>handleArrivalTime({"$gte":"12:00", "$lte":"18:00"})}
+                >
                     <CloudIcon/>
                     <p>12PM-6PM</p>
                 </button>
-                <button>
+                <button 
+                    className={`to ${JSON.stringify(arrivalTime) === JSON.stringify({"$gt":"18:00"})?"select":""}`}
+                    onClick={()=>handleArrivalTime({"$gt":"18:00"})}
+                >
                     <NightsStayIcon/>
                     <p>After 6PM</p>
                 </button>
@@ -353,7 +417,7 @@ function FlightResult() {
             <div className="filterAirlines">
 
               <span>
-                  <input type="checkbox" className="filterCheckBox"/>
+                  <input type="checkbox" className="filterCheckBox" value="AI"  />
                   <label>
                       <img src="https://play-lh.googleusercontent.com/BMIZX4wV8t3ZbgDaPwPNXgzsSWrmu9c-aMIBPknr9MttjL05SsHRPJ7shNy4D-bA6y5U"/>
                       Air India
@@ -361,7 +425,7 @@ function FlightResult() {
                </span>
 
                <span>
-                  <input type="checkbox" className="filterCheckBox"/>
+                  <input type="checkbox" className="filterCheckBox" value="IX" />
                   <label>
                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM70hjiFpo1RsYbkeTAJqH9n4DFH6u9bjadQ&s"/>
                       Air India Exprress
@@ -369,7 +433,7 @@ function FlightResult() {
                </span>
 
                <span>
-                  <input type="checkbox" className="filterCheckBox"/>
+                  <input type="checkbox" className="filterCheckBox" value="QP"/>
                   <label>
                       <img src="https://logos-world.net/wp-content/uploads/2022/01/Akasa-Air-Emblem.png"/>
                       Akasa Air
@@ -377,7 +441,7 @@ function FlightResult() {
                </span>
 
               <span>
-                   <input type="checkbox" className="filterCheckBox"/>
+                   <input type="checkbox" className="filterCheckBox" value="6E" />
                   <label>
                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMcUMH0VxUTElD1tjWO8iLs_8mN7Lm2l0HEw&s"/>
                       IndiGo

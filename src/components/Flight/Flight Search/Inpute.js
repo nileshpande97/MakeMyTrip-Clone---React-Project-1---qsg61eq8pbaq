@@ -1,4 +1,4 @@
-import React,{useEffect, useState,useContext} from 'react'
+import React,{useState,useContext} from 'react'
 import "../flightresult.css"
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
